@@ -1,0 +1,8 @@
+excel==1.0.1
+numpy==1.26.4
+pandas==2.2.1
+pillow==10.3.0
+pymssql==2.2.11
+PyMySQL==1.1.0
+
+
