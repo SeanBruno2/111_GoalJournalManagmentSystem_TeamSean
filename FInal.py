@@ -12,6 +12,9 @@ from tkinter import messagebox
 import csv 
 import os 
 from PIL import Image, ImageTk
+import tkmacosx as tkmac
+
+os.chdir('/Users/seanbrunojr/Documents/Intro to Programming/Final Project')
 
 
 #def exit function for login page
@@ -196,7 +199,7 @@ def user_menu(username):#creating the user menu
                    
 
         
-        save_button = tk.Button(edit_window, text="Save Changes", command=save_changes)
+        save_button = tkmac.Button(edit_window, text="Save Changes",bg="lightcoral",fg="white",borderless=True, command=save_changes)
         save_button.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
         
     def remove_entry():
@@ -215,10 +218,31 @@ def user_menu(username):#creating the user menu
     def Quit():
         user_menu_window.destroy()#quit from login screen
 
-   
 
     add_entry_frame = tk.Frame(user_menu_window,bg="slategrey")
     add_entry_frame.pack(pady=10)
+    
+    def load_image(image_path,width,height):
+        image = Image.open(image_path)
+        image = image.resize((width, height))
+        tk_image = ImageTk.PhotoImage(image)
+        return tk_image
+    
+
+
+    image_path = "Mountain.jpg"
+    resized_width = 100
+    resized_height = 100
+    tk_image =load_image(image_path, resized_width, resized_height)
+
+
+    label=tk.Label(user_menu_frame,image=tk_image)
+    label.image = tk_image
+    label.grid(row=0,column=0,padx=5,pady=5)
+
+    titlelbl=tk.Label(user_menu_frame,text="Main Menu",font=("Arial",33),bg="slategrey",fg="White")
+    titlelbl.grid(row=1,column=0)
+
 
     title_label = tk.Label(add_entry_frame, text="Title:",bg="slategrey",fg="white")
     title_label.grid(row=0, column=0, padx=5, pady=5)
@@ -248,18 +272,21 @@ def user_menu(username):#creating the user menu
     description_label.grid(row=4, column=0, padx=5, pady=5)
     description_var = tk.StringVar()
     description_entry = tk.Entry(add_entry_frame, textvariable=description_var, width=40,bg="slategrey",fg="white")
-    description_entry.grid(row=4, column=1, padx=5, pady=5, columnspan=4)
+    description_entry.grid(row=4, column=1, padx=5, pady=5, columnspan=3)
 
-    add_entry_btn = tk.Button(add_entry_frame, text="Add Entry", command=add_journal_entry)
+    
+    add_entry_btn = tkmac.Button(add_entry_frame, text="Add Entry",bg="lightcoral",fg="white",borderless=True, command=add_journal_entry)
     add_entry_btn.grid(row=0, column=5, padx=5, pady=5)
 
-    clear_btn = tk.Button(add_entry_frame, text="Clear Entry", command=clear_entry)
+
+
+    clear_btn = tkmac.Button(add_entry_frame, text="Clear Entry",bg="lightcoral",fg="white",borderless=True, command=clear_entry)
     clear_btn.grid(row=1, column=5, padx=5, pady=5)
 
-    edit_button = tk.Button(add_entry_frame, text="Edit Entry", command=edit_selected_entry)
+    edit_button = tkmac.Button(add_entry_frame, text="Edit Entry",bg="lightcoral",fg="white",borderless=True, command=edit_selected_entry)
     edit_button.grid(row=2,column=5)
 
-    remove_btn = tk.Button(add_entry_frame, text="Remove Entry", command=remove_entry)
+    remove_btn = tkmac.Button(add_entry_frame, text="Remove Entry",bg="lightcoral",fg="white",borderless=True, command=remove_entry)
     remove_btn.grid(row=3,column=5)
 
     search_frame = tk.Frame(user_menu_window,bg="slategrey")
@@ -270,13 +297,13 @@ def user_menu(username):#creating the user menu
     search_var = tk.StringVar()
     search_entry = tk.Entry(search_frame, textvariable=search_var, width=15,bg="slategrey",fg="white")
     search_entry.grid(row=0, column=1, padx=5, pady=5)
-    search_btn = tk.Button(search_frame, text="Search", command=search_by_date)
+    search_btn = tkmac.Button(search_frame, text="Search",bg="lightcoral",fg="white",borderless=True, command=search_by_date)
     search_btn.grid(row=0, column=2, padx=5, pady=5)
 
     journal_listbox = tk.Listbox(user_menu_frame, width=50,font=("Arial",16))
     journal_listbox.grid(padx=10, pady=10)
 
-    quit_button = tk.Button(search_frame, text="Log Out", command=Quit)
+    quit_button = tkmac.Button(search_frame, text="Log Out",bg="lightcoral",fg="white",borderless=True, command=Quit)
     quit_button.grid(row=5,column=1)
     
     
@@ -321,6 +348,28 @@ def admin_menu():
                 csv_writer = csv.writer(file)
                 csv_writer.writerows(data[:index] + data[index+1:])#writes the users again excluding the one slected
 
+
+
+    def load_image(image_path,width,height):
+        image = Image.open(image_path)
+        image = image.resize((width, height))
+        tk_image = ImageTk.PhotoImage(image)
+        return tk_image
+    
+    
+    image_path = "Mountain.jpg"
+    resized_width = 100
+    resized_height = 100
+    tk_image =load_image(image_path, resized_width, resized_height)
+
+
+    label=tk.Label(users_frame,image=tk_image)
+    label.image = tk_image
+    label.pack(padx=5,pady=5)
+
+    title1lbl=tk.Label(users_frame,text="Admin Menu",font=("Arial",33),bg="slategrey",fg="white")
+    title1lbl.pack()
+
     users_listbox = tk.Listbox(users_frame, width=50)
     users_listbox.pack(padx=10, pady=10)
     populate_users_list()
@@ -345,21 +394,24 @@ def admin_menu():
     role_ent = tk.Entry(add_user_frame, textvariable=role_var, width=10,bg="slategrey",fg="white")
     role_ent.grid(row=0, column=3, padx=5, pady=5)
 
-    add_user_btn = tk.Button(add_user_frame, text="Add User", command=add_user)
+    add_user_btn = tkmac.Button(add_user_frame, text="Add User",bg="lightcoral",fg="white",borderless=True, command=add_user)
     add_user_btn.grid(row=0, column=4, padx=5, pady=5)
 
-    remove_user_btn = tk.Button(admin_menu_window, text="Remove User", command=remove_user)
+    remove_user_btn = tkmac.Button(admin_menu_window, text="Remove User",bg="lightcoral",fg="white",borderless=True, command=remove_user)
     remove_user_btn.pack(pady=5)
+
+    image_frame = tk.Frame(admin_menu_window,bg="slategrey")
+    image_frame.pack(padx=10, pady=10)
+
 
     def back_to_Login():
         admin_menu_window.destroy()
         root.deiconify()
 
-    back_to_Login = tk.Button(admin_menu_window, text="Go to Login", command=back_to_Login)
+    back_to_Login = tkmac.Button(admin_menu_window, text="Go to Login",bg="lightcoral",fg="white",borderless=True, command=back_to_Login)
     back_to_Login.pack(pady=5)
 
-    
-
+   
 
 root = tk.Tk()
 root.title("Login")
@@ -387,10 +439,12 @@ password_var = tk.StringVar()
 password_ent = tk.Entry(login_frame, textvariable=password_var, show="*", width=30,bg="slategray",fg="white")
 password_ent.grid(row=2, column=1, padx=5, pady=5)
 
-login_btn = tk.Button(login_frame, text="Login", command=check_login)
+login_btn = tkmac.Button(login_frame,text="Login",bg="lightcoral",fg="white",borderless=True,command=check_login)
 login_btn.grid(row=1, column=2, padx=5, pady=5)
 
-exit_btn=tk.Button(login_frame, text="Exit",command=Exit)
+
+
+exit_btn=tkmac.Button(login_frame, text="Exit",bg="lightcoral",fg="white",borderless=True,command=Exit)
 exit_btn.grid(row=2,column=2,padx=5,pady=5)
 
 title_lbl=tk.Label(login_frame,text="GOAL JOURNAL",font=("Arial",20),bg="slategray",fg="white")
