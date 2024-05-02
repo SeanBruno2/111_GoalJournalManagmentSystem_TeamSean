@@ -125,7 +125,8 @@ def user_menu(username):#creating the user menu
         selected_entry = journal_listbox.get(selected_index[0])
         
         
-        entry_components = selected_entry.split(", ")
+        entry_components = selected_entry.split()
+        
         
         
         edit_window = tk.Toplevel()#create new window to edit
@@ -136,14 +137,14 @@ def user_menu(username):#creating the user menu
         title_var = tk.StringVar(value=entry_components[0] if len(entry_components) >= 1 else "")
         title_label = tk.Label(edit_window, text="Title:",bg="slategrey",fg="white")
         title_label.grid(row=0, column=0, padx=5, pady=5)
-        title_entry = tk.Entry(edit_window, textvariable=title_var, width=30,bg="slategrey",fg="white")
+        title_entry = tk.Entry(edit_window,textvariable=title_var, width=30,bg="slategrey",fg="white")
         title_entry.grid(row=0, column=1, padx=5, pady=5)
         
         
         date_var = tk.StringVar(value=entry_components[1] if len(entry_components) >= 2 else "")
         date_label = tk.Label(edit_window, text="Date:",bg="slategrey",fg="white")
         date_label.grid(row=1, column=0, padx=5, pady=5)
-        date_entry = tk.Entry(edit_window, textvariable=date_var, width=30,bg="slategrey",fg="white")
+        date_entry = tk.Entry(edit_window,textvariable=date_var, width=30,bg="slategrey",fg="white")
         date_entry.grid(row=1, column=1, padx=5, pady=5)
 
         time_var = tk.StringVar(value=entry_components[2] if len(entry_components) >= 3 else "")
@@ -179,7 +180,7 @@ def user_menu(username):#creating the user menu
             journal_listbox.delete(selected_index[0])#delete original entry from listbox
             
             
-            journal_listbox.insert(selected_index[0], edited_entry)#insert edited entry into listbox
+            journal_listbox.insert(selected_index[0], f'{edited_title}{edited_date}{edited_time}')#insert edited entry into listbox
             journal_file= f'{username}_journal.txt'
             
             with open(journal_file, "r") as file:#read all lines in txt
@@ -216,17 +217,43 @@ def user_menu(username):#creating the user menu
                         file.write(line)#write lines that are not the one removed
 
     def Quit():
-        user_menu_window.destroy()#quit from login screen
+        user_menu_window.destroy()#quit from main menu
 
 
     add_entry_frame = tk.Frame(user_menu_window,bg="slategrey")
-    add_entry_frame.pack(pady=10)
+    add_entry_frame.pack()
+
+
     
     def load_image(image_path,width,height):
         image = Image.open(image_path)
         image = image.resize((width, height))
         tk_image = ImageTk.PhotoImage(image)
         return tk_image
+
+    def about():
+        about_window = tk.Toplevel(root)#creat window to display results
+        about_window.title("About Me")
+        about_window.configure(bg="slategrey")
+
+        about_frame = tk.Frame(about_window,bg="slategray")
+        about_frame.pack(padx=50, pady=50)
+        
+
+        title_lbl=tk.Label(about_frame,text="About Me",font=("Arial",22),bg="slategrey",fg="white")
+        title_lbl.grid(row=0,column=0)
+
+        name_lbl=tk.Label(about_frame,text="Name: Sean Bruno",bg="slategrey",fg="white")
+        name_lbl.grid(row=1,column=0)
+
+        major_lbl=tk.Label(about_frame,text="Major: Applied Math",bg="slategrey",fg="white")
+        major_lbl.grid(row=2,column=0)
+
+        minor_lbl=tk.Label(about_frame,text="Minor: Data Science and Analytics",bg="slategrey",fg="white")
+        minor_lbl.grid(row=3,column=0)
+
+        grd_lbl=tk.Label(about_frame,text="Grad Year: 2026",bg="slategrey",fg="white")
+        grd_lbl.grid(row=4,column=0)
     
 
 
@@ -266,28 +293,31 @@ def user_menu(username):#creating the user menu
     duration_label.grid(row=3, column=0, padx=5, pady=5)
     duration_var = tk.StringVar()
     duration_entry = tk.Entry(add_entry_frame, textvariable=duration_var, width=10,bg="slategrey",fg="white")
-    duration_entry.grid(row=3, column=1, padx=5, pady=5)
+    duration_entry.grid(row=3, column=1,columnspan=3)
 
     description_label = tk.Label(add_entry_frame, text="Description:",bg="slategrey",fg="white")
     description_label.grid(row=4, column=0, padx=5, pady=5)
     description_var = tk.StringVar()
     description_entry = tk.Entry(add_entry_frame, textvariable=description_var, width=40,bg="slategrey",fg="white")
-    description_entry.grid(row=4, column=1, padx=5, pady=5, columnspan=3)
+    description_entry.grid(row=4, column=1,padx=5, pady=5)
 
     
     add_entry_btn = tkmac.Button(add_entry_frame, text="Add Entry",bg="lightcoral",fg="white",borderless=True, command=add_journal_entry)
-    add_entry_btn.grid(row=0, column=5, padx=5, pady=5)
+    add_entry_btn.grid(row=0, column=6, padx=5, pady=5)
 
 
 
     clear_btn = tkmac.Button(add_entry_frame, text="Clear Entry",bg="lightcoral",fg="white",borderless=True, command=clear_entry)
-    clear_btn.grid(row=1, column=5, padx=5, pady=5)
+    clear_btn.grid(row=1, column=6, padx=5, pady=5)
 
     edit_button = tkmac.Button(add_entry_frame, text="Edit Entry",bg="lightcoral",fg="white",borderless=True, command=edit_selected_entry)
-    edit_button.grid(row=2,column=5)
+    edit_button.grid(row=2,column=6)
 
     remove_btn = tkmac.Button(add_entry_frame, text="Remove Entry",bg="lightcoral",fg="white",borderless=True, command=remove_entry)
-    remove_btn.grid(row=3,column=5)
+    remove_btn.grid(row=3,column=6)
+
+    about_btn=tkmac.Button(add_entry_frame,text="About Me",bg="lightcoral",fg="white",borderless=True,command=about)
+    about_btn.grid(row=4,column=6)
 
     search_frame = tk.Frame(user_menu_window,bg="slategrey")
     search_frame.pack(pady=10)
